@@ -1,0 +1,43 @@
+name: build-apk
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Find project root
+        run: |
+          if [ -f settings.gradle ]; then
+            echo "ROOT=." >> "$GITHUB_ENV"
+          elif [ -f launcher-project/settings.gradle ]; then
+            echo "ROOT=launcher-project" >> "$GITHUB_ENV"
+          else
+            echo "::error::settings.gradle not found - check repository structure"
+            exit 1
+          fi
+
+      - name: JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Gradle 8.2
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.2'
+
+      - name: Assemble debug
+        run: gradle -p "$ROOT" :app:assembleDebug --no-daemon --stacktrace
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: tvhome-debug
+          path: ${{ env.ROOT }}/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
