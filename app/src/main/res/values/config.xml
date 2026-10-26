@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">TV Home</string>
+
+    <!-- Колонок в сетке приложений -->
+    <integer name="columns">5</integer>
+
+    <!-- Слотов в доке (4/5/6/7) -->
+    <integer name="dock_slots">4</integer>
+
+    <!-- Приложения в доке, по порядку. "settings" — системные настройки ТВ. -->
+    <string-array name="dock_apps">
+        <item>com.yandex.tv.ytplayer</item>
+        <item>mobi.zona</item>
+        <item>settings</item>
+    </string-array>
+
+    <!-- Имя для приветствия; если пусто — только «Добрый вечер» -->
+    <string name="greeting_name" translatable="false"></string>
+</resources>
